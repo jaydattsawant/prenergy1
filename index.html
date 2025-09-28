@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Energy Club</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="energyclub-Image-Sep-27-2025-05_32_23-PM.jpg" alt="Energy Club Logo" class="logo">
+                <span class="brand-text">The Energy Club</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#" onclick="showPage('home')" class="nav-link">Home</a>
+                <a href="#" onclick="showPage('events')" class="nav-link">Events</a>
+                <a href="#" onclick="showPage('quiz')" class="nav-link">Quiz</a>
+                <a href="#" onclick="showPage('about')" class="nav-link">About</a>
+                <a href="#" onclick="showPage('join')" class="nav-link">Join</a>
+                <div class="auth-section">
+                    <div id="logged-out" class="auth-buttons">
+                        <button class="btn btn--primary" onclick="showLoginModal()">Login</button>
+                    </div>
+                    <div id="logged-in" class="user-menu hidden">
+                        <button class="btn btn--secondary" onclick="showPage('dashboard')" id="dashboard-btn">Dashboard</button>
+                        <span class="user-name" id="current-user-name"></span>
+                        <button class="btn btn--outline" onclick="logout()">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <section id="home-page" class="page active">
+            <div class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <h1>Welcome to The Energy Club</h1>
+                        <p id="home-content">Welcome to The Energy Club - a community dedicated to promoting renewable energy and sustainability. Join us in our mission to create a cleaner, greener future through innovation and education.</p>
+                        <div class="hero-actions">
+                            <button class="btn btn--primary btn--lg" onclick="showPage('join')">Join Now</button>
+                            <button class="btn btn--outline btn--lg" onclick="showPage('about')">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="features-section">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3>Solar Energy</h3>
+                            <p>Learn about solar panel technology and sustainable energy solutions.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Wind Power</h3>
+                            <p>Explore wind turbine technology and renewable energy applications.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3>Clean Technology</h3>
+                            <p>Discover innovative clean technology solutions for a sustainable future.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events Page -->
+        <section id="events-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Upcoming Events</h1>
+                    <button id="add-event-btn" class="btn btn--primary hidden" onclick="showAddEventModal()">Add Event</button>
+                </div>
+                <div id="events-list" class="events-grid"></div>
+            </div>
+        </section>
+
+        <!-- Quiz Page -->
+        <section id="quiz-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Energy Knowledge Quiz</h1>
+                    <button id="manage-quiz-btn" class="btn btn--primary hidden" onclick="showQuizManagement()">Manage Quiz</button>
+                </div>
+                <div id="quiz-container">
+                    <div id="quiz-start" class="quiz-section">
+                        <p>Test your knowledge about renewable energy and sustainability!</p>
+                        <button class="btn btn--primary btn--lg" onclick="startQuiz()">Start Quiz</button>
+                    </div>
+                    <div id="quiz-questions" class="quiz-section hidden">
+                        <div class="quiz-progress">
+                            <span id="question-number">1</span> of <span id="total-questions">10</span>
+                        </div>
+                        <div id="current-question" class="question-card">
+                            <h3 id="question-text"></h3>
+                            <div id="question-options" class="options-list"></div>
+                            <button class="btn btn--primary" onclick="nextQuestion()" id="next-btn">Next Question</button>
+                        </div>
+                    </div>
+                    <div id="quiz-results" class="quiz-section hidden">
+                        <h3>Quiz Complete!</h3>
+                        <p>Your Score: <span id="final-score"></span></p>
+                        <button class="btn btn--primary" onclick="resetQuiz()">Take Again</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>About The Energy Club</h1>
+                    <button id="edit-about-btn" class="btn btn--primary hidden" onclick="editContent('about')">Edit Content</button>
+                </div>
+                <div class="content-section">
+                    <p id="about-content">The Energy Club was founded in 2024 with the vision of advancing renewable energy technologies and educating students about sustainable practices. Our members work on various projects related to solar, wind, and other clean energy sources.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Join Page -->
+        <section id="join-page" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Join The Energy Club</h1>
+                    <button id="edit-join-btn" class="btn btn--primary hidden" onclick="editContent('join')">Edit Content</button>
+                </div>
+                <div class="join-content">
+                    <p id="join-content">Interested in joining The Energy Club? We welcome students passionate about renewable energy and sustainability. Fill out our membership form and become part of our growing community of environmental enthusiasts.</p>
+                    <form class="join-form" onsubmit="submitJoinRequest(event)">
+                        <div class="form-group">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Student ID</label>
+                            <input type="text" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Why do you want to join?</label>
+                            <textarea class="form-control" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn--primary btn--full-width">Submit Application</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section id="dashboard-page" class="page">
+            <div class="container">
+                <h1>Dashboard</h1>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Welcome, <span id="dashboard-user-name"></span></h3>
+                        <p>Role: <span id="dashboard-user-role"></span></p>
+                    </div>
+                    <div id="member-management" class="dashboard-card hidden">
+                        <h3>Member Management</h3>
+                        <button class="btn btn--primary" onclick="showMemberManagement()">Manage Members</button>
+                    </div>
+                    <div id="content-management" class="dashboard-card hidden">
+                        <h3>Content Management</h3>
+                        <div class="btn-group">
+                            <button class="btn btn--secondary" onclick="editContent('home')">Edit Home</button>
+                            <button class="btn btn--secondary" onclick="showPage('events')">Manage Events</button>
+                            <button class="btn btn--secondary" onclick="showPage('quiz')">Manage Quiz</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="members-list" class="members-section hidden">
+                    <h3>Members</h3>
+                    <div id="members-table"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Login</h2>
+                <button class="modal-close" onclick="hideLoginModal()">&times;</button>
+            </div>
+            <form onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="login-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">User ID</label>
+                    <input type="text" id="login-userid" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="login-password" class="form-control" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary btn--full-width">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Event Modal -->
+    <div id="add-event-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Event</h2>
+                <button class="modal-close" onclick="hideAddEventModal()">&times;</button>
+            </div>
+            <form onsubmit="addEvent(event)">
+                <div class="form-group">
+                    <label class="form-label">Event Title</label>
+                    <input type="text" id="event-title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Date</label>
+                    <input type="date" id="event-date" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Time</label>
+                    <input type="time" id="event-time" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Location</label>
+                    <input type="text" id="event-location" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description</label>
+                    <textarea id="event-description" class="form-control" rows="3" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Add Event</button>
+                    <button type="button" class="btn btn--secondary" onclick="hideAddEventModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Content Edit Modal -->
+    <div id="content-edit-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit Content</h2>
+                <button class="modal-close" onclick="hideContentEditModal()">&times;</button>
+            </div>
+            <form onsubmit="saveContent(event)">
+                <div class="form-group">
+                    <label class="form-label">Content</label>
+                    <textarea id="content-editor" class="form-control" rows="6" required></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Save Changes</button>
+                    <button type="button" class="btn btn--secondary" onclick="hideContentEditModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Member Management Modal -->
+    <div id="member-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Member Management</h2>
+                <button class="modal-close" onclick="hideMemberModal()">&times;</button>
+            </div>
+            <div class="member-actions">
+                <button class="btn btn--primary" onclick="showAddMemberForm()">Add Member</button>
+            </div>
+            <div id="member-list" class="member-list"></div>
+        </div>
+    </div>
+
+    <!-- Add Member Modal -->
+    <div id="add-member-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Member</h2>
+                <button class="modal-close" onclick="hideAddMemberModal()">&times;</button>
+            </div>
+            <form onsubmit="addMember(event)">
+                <div class="form-group">
+                    <label class="form-label">Name</label>
+                    <input type="text" id="member-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" id="member-email" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">User ID</label>
+                    <input type="text" id="member-userid" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" id="member-password" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Role</label>
+                    <select id="member-role" class="form-control" required>
+                        <option value="">Select Role</option>
+                        <option value="student_member">Student Member</option>
+                        <option value="club_member">Club Member</option>
+                        <option value="council_member">Council Member</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn--primary">Add Member</button>
+                    <button type="button" class="btn btn--secondary" onclick="hideAddMemberModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
